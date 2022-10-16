@@ -33,7 +33,7 @@ const bcryptData = async (data) => {
     } catch (error) {
         res.json({
             status: 500,
-            data: "Data encryption error ;<",
+            message: "Data encryption error ;<",
         });
     }
 };
@@ -74,21 +74,23 @@ const sendVerificationEmail = ({ _id, email, username }, res) => {
                         .catch((err) =>
                             res.json({
                                 status: 500,
-                                data: "There was an error sending the verification email ;<",
+                                message:
+                                    "There was an error sending the verification email ;<",
                             })
                         );
                 })
                 .catch((err) =>
                     res.json({
                         status: 500,
-                        data: "There was an error while generating email authentication data ;<",
+                        message:
+                            "There was an error while generating email authentication data ;<",
                     })
                 );
         })
         .catch((err) =>
             res.json({
                 status: 500,
-                data: "There was an error in the translation process ;<",
+                message: "There was an error in the translation process ;<",
             })
         );
 };
