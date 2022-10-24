@@ -2,8 +2,13 @@ import Product from "../models/product.js";
 import cloudinary from "../../config/cloudinary/index.js";
 
 class ProductController {
-    get(req, res) {
-        res.send("It okay!");
+    async get(req, res) {
+        try {
+            const data = await Product.find({});
+            res.json(data);
+        } catch (error) {
+            res.status(500).json({ err: error });
+        }
     }
 
     async post(req, res) {
@@ -12,34 +17,64 @@ class ProductController {
                 productName,
                 productPrice,
                 productDesc,
-                previewSource,
-                productNew,
+                discription,
+                imageDisplay,
+                imgBackground,
+                productImages,
+                newBadge,
+                bagSize,
+                grind,
+                making,
+                imgExtra,
+                color,
             } = req.body;
 
-            if(productName.trim()==='' || productDesc.trim()){
-                res.send({ message: "Enter data, please" });
-                return ;
+            const cloudinaryUploader = (e) => {
+                return cloudinary.uploader.upload(e, {
+                    upload_preset: "ok-but-first-coffee",
+                });
+            };
+
+            const productImagesURL = await Promise.all(
+                productImages?.map((e) => cloudinaryUploader(e))
+            );
+            const productImgs = [];
+            for (const res of productImagesURL) productImgs.push(res.public_id);
+
+            const makingImg = await Promise.all(
+                making?.map((e) => cloudinaryUploader(e.img))
+            );
+
+            for (let i = 0; i < making.length; i++) {
+                making[i].img = makingImg[i].public_id;
             }
 
-            const promises = await Promise.all(
-                previewSource?.map((e) =>
-                    cloudinary.uploader.upload(e, {
-                        upload_preset: "ok-but-first-coffee",
-                    })
-                )
-            );
-            const productImage = [];
-            for (const res of promises) productImage.push(res.public_id);
+            const promises = await Promise.all([
+                cloudinaryUploader(imgExtra.imgBag),
+                cloudinaryUploader(imgExtra.imgSub),
+                cloudinaryUploader(imageDisplay),
+                cloudinaryUploader(imgBackground),
+            ]);
 
             await Product.create({
                 name: productName,
                 price: productPrice,
-                productImage,
+                productImages: productImgs,
+                imageDisplay: promises[2].public_id,
+                imageBackground: promises[3].public_id,
+                bagSize,
+                grind,
+                newBadge,
+                making,
+                color,
+                imageExtra: {
+                    imgBag: promises[0].public_id,
+                    imgSub: promises[1].public_id,
+                },
+                discription,
                 description: productDesc,
-                new: productNew,
             });
-
-            res.send({ message: "Bạn đã upload thành công" });
+            res.send({ message: "Create product success!" });
         } catch (err) {
             res.status(500).json({ err: err });
         }
