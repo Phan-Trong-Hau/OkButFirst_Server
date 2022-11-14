@@ -27,6 +27,7 @@ class ProductController {
                 making,
                 imgExtra,
                 color,
+                imageMiddleRoast,
             } = req.body;
 
             const cloudinaryUploader = (e) => {
@@ -49,51 +50,58 @@ class ProductController {
                 making[i].img = makingImg[i].public_id;
             }
 
-            const promises = await Promise.all([
+            const images = await Promise.all([
                 cloudinaryUploader(imgExtra.imgBag),
                 cloudinaryUploader(imgExtra.imgSub),
                 cloudinaryUploader(imageDisplay),
                 cloudinaryUploader(imgBackground),
+                cloudinaryUploader(imageMiddleRoast),
             ]);
 
-            await Product.create({
+            const data = await Product.create({
                 name: productName,
                 price: productPrice,
                 productImages: productImgs,
-                imageDisplay: promises[2].public_id,
-                imageBackground: promises[3].public_id,
+                imageDisplay: images[2].public_id,
+                imageBackground: images[3].public_id,
                 bagSize,
                 grind,
                 newBadge,
                 making,
                 color,
                 imageExtra: {
-                    imgBag: promises[0].public_id,
-                    imgSub: promises[1].public_id,
+                    imgBag: images[0].public_id,
+                    imgSub: images[1].public_id,
                 },
                 discription,
                 description: productDesc,
+                imageMiddleRoast: images[4].public_id,
             });
-            res.send({ message: "Create product success!" });
+
+            res.json(data);
         } catch (err) {
             res.status(500).json({ err: err });
         }
     }
 
-    getId(req, res, next) {
-        const _id = req.params.productId;
-        Product.findOne(_id)
-            .select("name price _id productImage")
-            .exec()
+    async put(req, res) {
+        const _id = req.body.productId;
+        const product = await Product.updateOne(_id);
+        console.log(product);
+        res.json(123);
+    }
+
+    async delete(req, res) {
+        res.json(123);
+    }
+
+    getId(req, res) {
+        const _id = req.params.id;
+        Product.findOne({ _id })
             .then((doc) => {
-                console.log("From database", doc);
                 if (doc) {
                     res.status(200).json({
                         product: doc,
-                        request: {
-                            type: "GET",
-                            url: "http://localhost:3000/products",
-                        },
                     });
                 } else {
                     res.status(404).json({
@@ -102,7 +110,6 @@ class ProductController {
                 }
             })
             .catch((err) => {
-                console.log(err);
                 res.status(500).json({ error: err });
             });
     }

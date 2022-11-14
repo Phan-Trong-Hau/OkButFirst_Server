@@ -31,6 +31,8 @@ const product = new Schema(
             ["desc1","desc2"]
         */
         description: { type: String, required: true },
+        imageMiddleRoast: {type: String, required: true},
+        
         review: Array,
         /*
             [
