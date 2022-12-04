@@ -19,7 +19,7 @@ const keySecret = process.env.KEY_SECRET;
 app.use(
     cors({
         origin: [urlClient],
-        methods: ["GET", "POST"],
+        methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true,
     })
 );
