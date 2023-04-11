@@ -29,3 +29,6 @@ npm start
  Go to `http://localhost:8080/api` in your browser.
 
 
+_Note: I use mongoDB in the project, make sure you know basic usage of it._
+
+
