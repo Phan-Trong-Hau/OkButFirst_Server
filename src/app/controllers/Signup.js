@@ -133,15 +133,13 @@ class SignupController {
           res.send("Email is already taken.");
           return;
         }
-        let isAdmin = false;
-        if (process.env.USERNAME_ADMINISTRATOR === username) isAdmin =true;
 
         const hashPassword = await bcryptData(password);
         const data = await accounts.create({
           username,
           email,
           password: hashPassword,
-          isAdmin,
+          isAdmin: false,
           verified: false,
         });
 
