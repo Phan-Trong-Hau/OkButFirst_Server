@@ -6,14 +6,15 @@ class AccountController {
     try {
       const data = await Accounts.find({});
       const filterPassword = data.map(
-        ({ password, username, email, verified, isAdmin }) => ({
+        ({ _id, username, email, verified, isAdmin }) => ({
+          _id,
           username,
           email,
           verified,
           isAdmin,
         })
       );
-      res.json({ data: filterPassword, status: 200 });
+      res.json(filterPassword);
     } catch (error) {
       res.status(500).json({ err: error });
     }
