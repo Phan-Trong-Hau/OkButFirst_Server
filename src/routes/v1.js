@@ -23,8 +23,8 @@ router.get("/merch/:merchId", MerchController.getId);
 router.put("/merch/:merchId", restrictToAdmins, MerchController.put);
 router.delete("/merch/:merchId", restrictToAdmins, MerchController.delete);
 
-// router users
-router.get("/accounts", AccountController.getAll);
-router.post("/accounts/:email", AccountController.post);
+// router accounts
+router.get("/accounts", restrictToAdmins, AccountController.getAll);
+router.post("/accounts/:email", restrictToAdmins, AccountController.post);
 
 export default router;
