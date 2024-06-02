@@ -25,6 +25,6 @@ router.delete("/merch/:merchId", restrictToAdmins, MerchController.delete);
 
 // router accounts
 router.get("/accounts", restrictToAdmins, AccountController.getAll);
-router.post("/accounts/:email", restrictToAdmins, AccountController.post);
+router.put("/accounts/:email", restrictToAdmins, AccountController.put);
 
 export default router;
