@@ -10,6 +10,8 @@ const router = express.Router();
 router.get("/login", LoginController.get);
 router.post("/login", LoginController.post);
 
+router.get("/logout", LoginController.delete);
+
 // router đăng ký tài khoản
 router.get("/signup", SignupController.get);
 router.post("/signup", SignupController.post);

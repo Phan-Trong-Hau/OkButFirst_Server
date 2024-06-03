@@ -66,6 +66,23 @@ class LoginController {
       });
     }
   }
+
+  async delete(req, res) {
+    req.session.destroy((err) => {
+      if (err) {
+        res.json({
+          status: 500,
+          message: "System error!!!",
+        });
+      } else {
+        res.clearCookie("userId");
+        res.json({
+          status: 200,
+          message: "Logout success!!!",
+        });
+      }
+    });
+  }
 }
 
 export default new LoginController();
