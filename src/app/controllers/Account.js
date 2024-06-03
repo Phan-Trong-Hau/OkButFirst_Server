@@ -28,7 +28,6 @@ class AccountController {
       const result = await Accounts.findOne({ email }).updateOne({
         isAdmin: isAdmin,
       });
-      console.log({ result });
 
       res.json({ status: 200, message: "Update successfully" });
     } catch (error) {
