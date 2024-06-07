@@ -25,9 +25,11 @@ class AccountController {
     const email = req.params.email;
     const { isAdmin } = req.body;
     try {
-      const result = await Accounts.findOne({ email }).updateOne({
+      await Accounts.findOne({ email }).updateOne({
         isAdmin: isAdmin,
       });
+
+      // Send notifications to users whose permissions have been updated
 
       res.json({ status: 200, message: "Update successfully" });
     } catch (error) {
