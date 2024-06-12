@@ -2,19 +2,19 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const merch = new Schema(
-    {
-        name: { type: String, required: true },
-        price: { type: Number, required: true },
-        imageDisplay: { type: String, required: true },
-        merchImages: { type: Array, required: true },
-        size: { type: Array, required: true },
-        brand: { type: String, required: true },
-        availability: { type: String, required: true },
-        /* 
+  {
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
+    imageDisplay: { type: String, required: true },
+    merchImages: { type: Array, required: true },
+    size: { type: Array, required: true },
+    brand: { type: String, required: true },
+    availability: { type: String, required: true },
+    /* 
             ["","","", ...]
         */
-        newBadge: { type: Boolean, required: true },
-        /*
+    newBadge: { type: Boolean, required: true },
+    /*
             [
                 {
                     img: 
@@ -22,11 +22,11 @@ const merch = new Schema(
                 }
             ]
         */
-        color: { type: Array, required: true },
-        description: { type: String, required: true },
-        features: { type: String, required: true },
-        review: Array,
-        /*
+    color: { type: Array, required: true },
+    description: { type: String, required: true },
+    features: { type: String, required: true },
+    review: Array,
+    /*
             [
                 {
                     name:
@@ -42,8 +42,8 @@ const merch = new Schema(
                 }
             ]
          */
-        question: Array,
-        /*
+    question: Array,
+    /*
             [
                 {
                     name:
@@ -52,10 +52,10 @@ const merch = new Schema(
                 }
             ]
          */
-    },
-    {
-        timestamps: true,
-    }
+  },
+  {
+    timestamps: true,
+  },
 );
 
 const Models = mongoose.model("merches", merch);

@@ -68,14 +68,14 @@ const sendVerificationEmail = ({ _id, email, username }, res) => {
             .sendMail(mailOptions)
             .then((data) =>
               res.send(
-                "You have successfully registered an account. Please check your mailbox for email confirmation!!!"
-              )
+                "You have successfully registered an account. Please check your mailbox for email confirmation!!!",
+              ),
             )
             .catch((err) =>
               res.json({
                 status: 500,
                 message: "There was an error sending the verification email ;<",
-              })
+              }),
             );
         })
         .catch((err) =>
@@ -83,14 +83,14 @@ const sendVerificationEmail = ({ _id, email, username }, res) => {
             status: 500,
             message:
               "There was an error while generating email authentication data ;<",
-          })
+          }),
         );
     })
     .catch((err) =>
       res.json({
         status: 500,
         message: "There was an error in the translation process ;<",
-      })
+      }),
     );
 };
 

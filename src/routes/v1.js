@@ -13,7 +13,7 @@ router.put("/products/:productId", restrictToAdmins, ProductController.put);
 router.delete(
   "/products/:productId",
   restrictToAdmins,
-  ProductController.delete
+  ProductController.delete,
 );
 
 // router merch shop

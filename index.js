@@ -17,32 +17,32 @@ const keySecret = process.env.KEY_SECRET;
 
 // set allow cors for fe
 app.use(
-    cors({
-        origin: [urlClient],
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        credentials: true,
-    })
+  cors({
+    origin: [urlClient],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
 );
 
 // config cookie parser
 app.use(cookieParser());
 
 // config body parser
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
-app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
+app.use(express.json({ limit: "50mb" }));
 
 // session connect
 app.use(
-    session({
-        key: "userId",
-        secret: keySecret,
-        resave: false,
-        saveUninitialized: false,
-        cookie: { maxAge: 1000 * 60 * 60 * 24 },
-        store: MongoStore.create({
-            mongoUrl: urlDatabase,
-        }),
-    })
+  session({
+    key: "userId",
+    secret: keySecret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 },
+    store: MongoStore.create({
+      mongoUrl: urlDatabase,
+    }),
+  }),
 );
 
 // data connection
@@ -52,5 +52,5 @@ dataConnect();
 route(app);
 
 app.listen(PORT, () => {
-    console.log(`http://localhost:${PORT}/`);
+  console.log(`http://localhost:${PORT}/`);
 });

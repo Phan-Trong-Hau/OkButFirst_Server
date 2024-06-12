@@ -12,7 +12,7 @@ class AccountController {
           email,
           verified,
           isAdmin,
-        })
+        }),
       );
       res.json(filterPassword);
     } catch (error) {
