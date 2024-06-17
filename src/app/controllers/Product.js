@@ -37,13 +37,13 @@ class ProductController {
       };
 
       const productImagesURL = await Promise.all(
-        productImages?.map((e) => cloudinaryUploader(e)),
+        productImages?.map((e) => cloudinaryUploader(e))
       );
       const productImgs = [];
       for (const res of productImagesURL) productImgs.push(res.public_id);
 
       const makingImg = await Promise.all(
-        making?.map((e) => cloudinaryUploader(e.img)),
+        making?.map((e) => cloudinaryUploader(e.img))
       );
 
       for (let i = 0; i < making.length; i++) {
@@ -115,7 +115,7 @@ class ProductController {
           })
           .then((resp) => console.log(resp))
           .catch((_err) =>
-            console.log("Something went wrong, please try again later."),
+            console.log("Something went wrong, please try again later.")
           );
       };
       if (imageDisplay.length > 30) deleteImage(prevProduct.imageDisplay);
@@ -150,7 +150,7 @@ class ProductController {
             productImgs.push(e);
             return false;
           }
-        }),
+        })
       );
       for (const res of productImagesRes)
         res ? productImgs.push(res?.public_id) : "";
@@ -158,7 +158,7 @@ class ProductController {
         making?.map((e) => {
           if (e.img.length > 30) return cloudinaryUploader(e.img);
           return e;
-        }),
+        })
       );
 
       for (let i = 0; i < making.length; i++) {
@@ -210,7 +210,7 @@ class ProductController {
           discription,
           description: productDesc,
           imageMiddleRoast: images[4],
-        },
+        }
       );
       const product = await Product.findOne({ _id });
       res.status(200).json(product);
@@ -231,7 +231,7 @@ class ProductController {
           })
           .then((resp) => console.log(resp))
           .catch((_err) =>
-            console.log("Something went wrong, please try again later."),
+            console.log("Something went wrong, please try again later.")
           );
       };
 
@@ -258,21 +258,27 @@ class ProductController {
 
   getId(req, res) {
     const _id = req.params.productId;
-    Product.findById(_id)
-      .then((doc) => {
-        if (doc) {
-          res.status(200).json({
-            product: doc,
-          });
-        } else {
-          res.status(404).json({
-            message: "No valid entry found for provided ID",
-          });
-        }
-      })
-      .catch((err) => {
-        res.status(500).json({ error: err });
+    if (_id.match(/^[0-9a-fA-F]{24}$/)) {
+      Product.findById(_id)
+        .then((doc) => {
+          if (doc) {
+            res.status(200).json({
+              product: doc,
+            });
+          } else {
+            res.status(404).json({
+              message: "No valid entry found for provided ID",
+            });
+          }
+        })
+        .catch((err) => {
+          res.status(500).json({ error: err });
+        });
+    } else {
+      res.status(404).json({
+        message: "No valid entry found for provided ID",
       });
+    }
   }
 }
 
