@@ -34,7 +34,7 @@ class MerchController {
       };
 
       const merchImagesURL = await Promise.all(
-        merchImages?.map((e) => cloudinaryUploader(e)),
+        merchImages?.map((e) => cloudinaryUploader(e))
       );
       const merchImgs = [];
       for (const res of merchImagesURL) merchImgs.push(res.public_id);
@@ -89,7 +89,7 @@ class MerchController {
           })
           .then((resp) => console.log(resp))
           .catch((_err) =>
-            console.log("Something went wrong, please try again later."),
+            console.log("Something went wrong, please try again later.")
           );
       };
       if (imageDisplay.length > 30) deleteImage(prevProduct.imageDisplay);
@@ -113,7 +113,7 @@ class MerchController {
             merchImgs.push(e);
             return false;
           }
-        }),
+        })
       );
       for (const res of merchImagesRes)
         res ? merchImgs.push(res?.public_id) : "";
@@ -137,7 +137,7 @@ class MerchController {
           brand,
           description: merchDesc,
           features,
-        },
+        }
       );
       const product = await Merch.findOne({ _id });
       res.status(200).json(product);
@@ -158,7 +158,7 @@ class MerchController {
           })
           .then((resp) => console.log(resp))
           .catch((_err) =>
-            console.log("Something went wrong, please try again later."),
+            console.log("Something went wrong, please try again later.")
           );
       };
 
@@ -178,21 +178,26 @@ class MerchController {
 
   getId(req, res) {
     const _id = req.params.merchId;
-    Merch.findById(_id)
-      .then((doc) => {
-        if (doc) {
-          res.status(200).json({
-            product: doc,
-          });
-        } else {
-          res.status(404).json({
-            message: "No valid entry found for provided ID",
-          });
-        }
-      })
-      .catch((err) => {
-        res.status(500).json({ error: err });
-      });
+
+    if (_id.match(/^[0-9a-fA-F]{24}$/)) {
+      Merch.findById(_id)
+        .then((doc) => {
+          if (doc) {
+            res.status(200).json({
+              product: doc,
+            });
+          } else {
+            res.status(404).json({
+              message: "No valid entry found for provided ID",
+            });
+          }
+        })
+        .catch((err) => {
+          res.status(500).json({ error: err });
+        });
+    } else {
+      res.status(404).json({ message: "No valid entry found for provided ID" });
+    }
   }
 }
 
