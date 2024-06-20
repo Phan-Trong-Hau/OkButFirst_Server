@@ -1,22 +1,9 @@
-import bcrypt from "bcrypt";
 import "dotenv/config";
 
 import accounts from "../models/account.js";
 import { createAccountValidate } from "../helper/validation.js";
 import { sendVerificationEmail } from "../../config/nodemailer/index.js";
-
-const bcryptData = async (data) => {
-  try {
-    const salt = await bcrypt.genSalt(12);
-    const hashData = await bcrypt.hash(data, salt);
-    return hashData;
-  } catch (error) {
-    res.json({
-      status: 500,
-      message: "Data encryption error ;<",
-    });
-  }
-};
+import bcryptHash from "../../config/bcrypt/index.js";
 
 class SignupController {
   // [GET] /Signup
@@ -58,7 +45,7 @@ class SignupController {
           return;
         }
 
-        const hashPassword = await bcryptData(password);
+        const hashPassword = await bcryptHash(password, res);
         const data = await accounts.create({
           username,
           email,
