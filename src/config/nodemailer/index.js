@@ -1,6 +1,7 @@
 import { v4 } from "uuid";
 import nodemailer from "nodemailer";
 import verification from "../../app/models/verification.js";
+import bcryptHash from "../bcrypt/index.js";
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -37,7 +38,7 @@ export const sendVerificationEmail = ({ _id, email, username }, res) => {
         }>here</a> to proceed.</h4>`,
   };
 
-  bcryptData(uniqueString)
+  bcryptHash(uniqueString, res)
     .then((data) => {
       verification
         .create({
