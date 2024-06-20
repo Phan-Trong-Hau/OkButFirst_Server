@@ -28,16 +28,18 @@ class VerifyController {
                 accounts
                   .deleteOne({ _id: userId })
                   .then((data) =>
-                    res.send("Đường dẫn đã hết hạn. Vui lòng đăng ký lại"),
+                    res.send("The link has expired. Please register again!")
                   )
                   .catch((err) =>
-                    res.send("Có lỗi trong quá trình xóa tài khoản hết hạn"),
+                    res.send(
+                      "There was an error while deleting an expired account!"
+                    )
                   );
               })
               .catch((err) =>
                 res.send(
-                  "Có lỗi trong quá trình xóa dữ liệu xác thực tài khoản hết hạn",
-                ),
+                  "There was an error during the process of deleting expired account authentication data!"
+                )
               );
           } else {
             bcrypt
@@ -50,28 +52,30 @@ class VerifyController {
                       verification
                         .deleteOne({ userId })
                         .then((data) =>
-                          res.send("Bạn đã xác thực email thành công."),
+                          res.send(
+                            "You have successfully authenticated your email."
+                          )
                         )
                         .catch((err) =>
-                          res.send("Lỗi trong quá trình xóa user id"),
+                          res.send("Error while deleting user id!")
                         );
                     })
                     .catch((err) =>
-                      res.send("Lôi trong quá trình xác thực email"),
+                      res.send("Error during email authentication!")
                     );
                 } else {
-                  res.send("Xác thực email không thành công");
+                  res.send("Email authentication failed!");
                 }
               })
               .catch((err) =>
-                res.send("Có lỗi trong quá trình phiên dịch dữ liệu "),
+                res.send("There was an error during data translation!")
               );
           }
         } else {
-          res.send("Không tìm thấy tài khoản cần xác thực!!!");
+          res.send("No account found to authenticate!!!");
         }
       })
-      .catch((err) => res.send("Lỗi trong quá trình tìm id người dùng!!!"));
+      .catch((err) => res.send("Error while finding user id!!!"));
   }
 }
 
