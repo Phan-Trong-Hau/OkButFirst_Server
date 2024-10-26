@@ -12,7 +12,7 @@ import dataConnect from "./src/config/db/index.js";
 const app = express();
 const PORT = 8080;
 const urlDatabase = process.env.URL_DB;
-const urlClient = process.env.URL_FONTEND;
+const urlClient = process.env.URL_FRONTEND;
 const keySecret = process.env.KEY_SECRET;
 
 // set allow cors for fe
